@@ -16,7 +16,7 @@ function ProtectedRoute({ children }) {
   })
 
   return (
-    <div className='layout shadow-gray-800 p-1 border border-black rounded-lg shadow-lg'>
+    <div className='layout shadow-gray-800 p-1 m-3 border-4 border-gray-500 rounded-lg shadow-lg'>
       <div className='header flex items-center justify-between p-2 bg-white'>
         <div className='flex'>
           <h2 className='flex cursor-pointer' onClick={() => navigate('/')}>

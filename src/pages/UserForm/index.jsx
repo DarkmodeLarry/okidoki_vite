@@ -1,10 +1,13 @@
-import { Col, Form, message, Row } from 'antd'
+import { Button, Col, Form, message, Row, Space } from 'antd'
 import React, { useState, useEffect } from 'react'
 import Input from '@/components/ui/Input'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { AddDocument, CheckIfDocumentIsSubmitted, UpdateDocument } from '@/apicalls/documents'
 import { ShowLoader } from '@/redux/loaderSlice'
+import { Timestamp } from 'firebase/firestore'
 
 function UserForm() {
   const [form] = Form.useForm()
@@ -22,10 +25,11 @@ function UserForm() {
         days,
         userId: JSON.parse(localStorage.getItem('user')).id,
         status: 'pending',
-        role: 'user'
+        role: 'user',
+        createdAt: new date().toISOString()
       }
       let response = null
-      if (documentSubmitted) {
+      if (documentApproved) {
         payload.id = JSON.parse(localStorage.getItem('user')).id
         payload.status = 'approved'
         response = await UpdateDocument(payload)
@@ -105,6 +109,20 @@ function UserForm() {
               </Col>
               <Col span={8}>
                 <Form.Item
+                  label='Middle Name (optional)'
+                  name='middleName'
+                  rules={[
+                    {
+                      required: false,
+                      message: 'optional'
+                    }
+                  ]}
+                >
+                  <Input type='text' />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
                   label='Last Name'
                   name='lastName'
                   rules={[
@@ -114,7 +132,21 @@ function UserForm() {
                     }
                   ]}
                 >
-                  <Input type='text' />
+                  <Input type='email' />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label='Phone Number'
+                  name='phone'
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Required'
+                    }
+                  ]}
+                >
+                  <Input type='number' />
                 </Form.Item>
               </Col>
               <Col span={8}>
@@ -128,13 +160,13 @@ function UserForm() {
                     }
                   ]}
                 >
-                  <input type='email' />
+                  <Input type='email' />
                 </Form.Item>
               </Col>
               <Col span={8}>
                 <Form.Item
-                  label='Phone'
-                  name='phone'
+                  label='Date of Birth'
+                  name='dob'
                   rules={[
                     {
                       required: true,
@@ -142,21 +174,7 @@ function UserForm() {
                     }
                   ]}
                 >
-                  <input type='number' />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  label='Website'
-                  name='website'
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Required'
-                    }
-                  ]}
-                >
-                  <input type='text' />
+                  <Input type='dob' />
                 </Form.Item>
               </Col>
               <Col span={24}>
@@ -177,161 +195,96 @@ function UserForm() {
               <Col span={24}>
                 <hr />
               </Col>
-
-              {/* professional information */}
-              <Col span={24}>
-                <h4 className='uppercase'>
-                  <b>Professional Information</b>
-                </h4>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  label='Speciality'
-                  name='speciality'
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Required'
-                    }
-                  ]}
-                >
-                  <select>
-                    <option value='dermetologist'>Dermetologist</option>
-                    <option value='cardiologist'>Cardiologist</option>
-                    <option value='gynecologist'>Gynecologist</option>
-                    <option value='neurologist'>Neurologist</option>
-                    <option value='orthopedic'>Orthopedic</option>
-                    <option value='pediatrician'>Pediatrician</option>
-                    <option value='psychiatrist'>Psychiatrist</option>
-                    <option value='surgeon'>Surgeon</option>
-                    <option value='urologist'>Urologist</option>
-                  </select>
-                </Form.Item>
-              </Col>
-
-              <Col span={8}>
-                <Form.Item
-                  label='Experience'
-                  name='experience'
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Required'
-                    }
-                  ]}
-                >
-                  <input type='number' />
-                </Form.Item>
-              </Col>
-
-              <Col span={8}>
-                <Form.Item
-                  label='Qualification'
-                  name='qualification'
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Required'
-                    }
-                  ]}
-                >
-                  <select>
-                    <option value='MBBS'>MBBS</option>
-                    <option value='MD'>MD</option>
-                    <option value='MS'>MS</option>
-                    <option value='MDS'>MDS</option>
-                  </select>
-                </Form.Item>
-              </Col>
-
-              <Col span={24}>
-                <hr />
-              </Col>
-
-              <Col span={24}>
-                <h4 className='uppercase'>
-                  <b>Work Hours</b>
-                </h4>
-              </Col>
-              {/* work hours */}
-              <Col span={8}>
-                <Form.Item
-                  label='Start Time'
-                  name='startTime'
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Required'
-                    }
-                  ]}
-                >
-                  <input type='time' />
-                </Form.Item>
-              </Col>
-
-              <Col span={8}>
-                <Form.Item
-                  label='End Time'
-                  name='endTime'
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Required'
-                    }
-                  ]}
-                >
-                  <input type='time' />
-                </Form.Item>
-              </Col>
-
-              <Col span={8}>
-                <Form.Item
-                  label='Fee'
-                  name='fee'
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Required'
-                    }
-                  ]}
-                >
-                  <input type='number' />
-                </Form.Item>
-              </Col>
-
-              <Col span={24}>
-                <div className='flex gap-2'>
-                  {[
-                    'Monday',
-                    'Tuesday',
-                    'Wednesday',
-                    'Thursday',
-                    'Friday',
-                    'Saturday',
-                    'Sunday'
-                  ].map((day, index) => (
-                    <div className='flex items-center'>
-                      <input
-                        type='checkbox'
-                        key={index}
-                        checked={days.includes(day)}
-                        value={day}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setDays([...days, e.target.value])
-                          } else {
-                            setDays(days.filter((item) => item !== e.target.value))
-                          }
-                        }}
-                      />
-                      <label>{day}</label>
-                    </div>
-                  ))}
-                </div>
-              </Col>
+              <hr />
+              {/* family information */}
+              <Form.List name='spouse'>
+                {(fields, { add, remove }) => (
+                  <>
+                    {fields.map(({ key, name, ...restField }) => (
+                      <Space
+                        key={key}
+                        style={{ display: 'flex', marginBottom: 8 }}
+                        align='baseline'
+                      >
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'spouseFirstName']}
+                          rules={[{ required: true, message: 'Missing first name' }]}
+                        >
+                          <Input placeholder='Spouse First Name' />
+                        </Form.Item>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'spouseMiddleName']}
+                          rules={[{ required: true, message: 'Missing first name' }]}
+                        >
+                          <Input placeholder='Spouse Middle Name' />
+                        </Form.Item>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'spouseLastName']}
+                          rules={[{ required: true, message: 'Missing last name' }]}
+                        >
+                          <Input placeholder='Spouse Last Name' />
+                        </Form.Item>
+                        <MinusCircleOutlined onClick={() => remove(name)} />
+                      </Space>
+                    ))}
+                    <Form.Item>
+                      <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
+                        Add Spouse
+                      </Button>
+                    </Form.Item>
+                  </>
+                )}
+              </Form.List>
+              <hr />
+              <br />
+              <Form.List name='children'>
+                {(fields, { add, remove }) => (
+                  <>
+                    {fields.map(({ key, name, ...restField }) => (
+                      <Space
+                        key={key}
+                        style={{ display: 'flex', marginBottom: 8 }}
+                        align='baseline'
+                      >
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'childFirstName']}
+                          rules={[{ required: true, message: 'Missing first name' }]}
+                        >
+                          <Input placeholder='Child First Name' />
+                        </Form.Item>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'childMiddleName']}
+                          rules={[{ required: true, message: 'Missing first name' }]}
+                        >
+                          <Input placeholder='Child Middle Name' />
+                        </Form.Item>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'childLastName']}
+                          rules={[{ required: true, message: 'Missing last name' }]}
+                        >
+                          <Input placeholder='Child Last Name' />
+                        </Form.Item>
+                        <MinusCircleOutlined onClick={() => remove(name)} />
+                      </Space>
+                    ))}
+                    <Form.Item>
+                      <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
+                        Add Child
+                      </Button>
+                    </Form.Item>
+                  </>
+                )}
+              </Form.List>
+              <hr />
             </Row>
 
-            <div className='flex justify-end gap-2'>
+            <div className='flex justify-end gap-6'>
               <button className='outlined-btn' type='button'>
                 CANCEL
               </button>
@@ -345,9 +298,9 @@ function UserForm() {
 
       {documentSubmitted && !documentApproved && (
         <div className='flex flex-col items-center gap-2'>
-          <h3 className='text-secondary'>
-            You have already submitted this document for approval, please wait for the admin to
-            approve your request
+          <h3 className='text-gray-800'>
+            You have already submitted this document, please wait for the admin to approve your
+            request.
           </h3>
         </div>
       )}

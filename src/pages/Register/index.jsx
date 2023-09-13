@@ -19,7 +19,8 @@ function Register() {
       dispatch(ShowLoader(true))
       const response = await CreateUser({
         ...values,
-        role: 'user'
+        role: 'user',
+        createdAt: new Date().toISOString()
       })
       dispatch(ShowLoader(false))
       if (response.success) {
@@ -50,14 +51,18 @@ function Register() {
           <strong>OkiDoki Register</strong>
         </h2>
         <hr />
+        <Form.Item name='firstName'>
+          <Input type='text' placeholder='First Name' className=' bg-gray-600' />
+        </Form.Item>
+        <Form.Item name='lastName'>
+          <Input type='text' placeholder='Last Name' className=' bg-gray-600' />
+        </Form.Item>
         <Form.Item name='email'>
-          <Input autoComplete='true' type='email' placeholder='Email' className=' bg-gray-600' />
+          <Input type='email' placeholder='Email' className=' bg-gray-600' />
         </Form.Item>
 
         <Form.Item name='password'>
           <Input
-            autoComplete='true'
-            suggested='current-password'
             type='password'
             placeholder='Password'
             className='bg-gray-600 border border-gray-300'
