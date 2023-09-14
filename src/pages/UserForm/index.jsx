@@ -1,23 +1,30 @@
-import { Button, Col, Form, message, Row, Space } from 'antd'
-import React, { useState, useEffect } from 'react'
-import Input from '@/components/ui/Input'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { AddDocument, CheckIfDocumentIsSubmitted, UpdateDocument } from '@/apicalls/documents'
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai'
+import { ShowLoader } from '@/redux/loaderSlice'
+import { Form, Select, Space, Button, Col, Input, Row } from 'antd'
 
+import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { AddDocument, CheckIfDocumentIsSubmitted, UpdateDocument } from '@/apicalls/documents'
-import { ShowLoader } from '@/redux/loaderSlice'
-import { Timestamp } from 'firebase/firestore'
+import { Checkbox } from 'antd'
+import { Divider } from 'antd'
+import { Typography } from 'antd'
+import { message } from 'antd'
 
 function UserForm() {
   const [form] = Form.useForm()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [documentSubmitted, setDocumentSubmitted] = useState(false)
   const [documentApproved, setDocumentApproved] = useState(false)
   const [days, setDays] = useState([])
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const onFinsh = async (values) => {
+  const initialValues = {
+    spouseFirstName: 'N/A',
+    spouseLastName: 'N/A'
+  }
+
+  const onFinish = async (values) => {
     try {
       dispatch(ShowLoader(true))
       const payload = {
@@ -25,8 +32,7 @@ function UserForm() {
         days,
         userId: JSON.parse(localStorage.getItem('user')).id,
         status: 'pending',
-        role: 'user',
-        createdAt: new date().toISOString()
+        role: 'user'
       }
       let response = null
       if (documentApproved) {
@@ -75,25 +81,23 @@ function UserForm() {
     checkIfDocumentIsSubmitted()
   }, [])
 
+  const { Option } = Select
   return (
-    <div className='p-6 m-6 bg-gray-300 rounded-lg'>
+    <div className='w-full p-6 m-6 bg-gray-300 rounded-lg'>
       {(!documentSubmitted || documentApproved) && (
         <>
           {' '}
-          <h3 className='my-1 uppercase'>
-            {documentApproved ? 'Update your information' : 'Complete the form below'}
-          </h3>
+          <h3 className='my-1 uppercase'>{documentApproved ? 'Update your information' : 'Complete the form below'}</h3>
           <hr />
-          <Form layout='vertical' className='my-1' onFinish={onFinsh} form={form}>
+          <Form style={{ width: 500 }} onFinish={onFinish} form={form} autoComplete='off' layout='vertical'>
+            {/* personal information */}
             <Row gutter={[16, 16]}>
-              {/* personal information */}
-
               <Col span={24}>
                 <h4 className='uppercase'>
                   <b>Personal Information</b>
                 </h4>
               </Col>
-              <Col span={8}>
+              <Col span={12}>
                 <Form.Item
                   label='First Name'
                   name='firstName'
@@ -104,10 +108,10 @@ function UserForm() {
                     }
                   ]}
                 >
-                  <Input type='text' />
+                  <Input placeholder='First name' />
                 </Form.Item>
               </Col>
-              <Col span={8}>
+              <Col span={12}>
                 <Form.Item
                   label='Middle Name (optional)'
                   name='middleName'
@@ -118,10 +122,10 @@ function UserForm() {
                     }
                   ]}
                 >
-                  <Input type='text' />
+                  <Input placeholder='Middle name' />
                 </Form.Item>
               </Col>
-              <Col span={8}>
+              <Col span={24}>
                 <Form.Item
                   label='Last Name'
                   name='lastName'
@@ -132,13 +136,14 @@ function UserForm() {
                     }
                   ]}
                 >
-                  <Input type='email' />
+                  <Input placeholder='Last name' />
                 </Form.Item>
               </Col>
-              <Col span={8}>
+
+              <Col span={12}>
                 <Form.Item
                   label='Phone Number'
-                  name='phone'
+                  name='phoneNumber'
                   rules={[
                     {
                       required: true,
@@ -146,10 +151,11 @@ function UserForm() {
                     }
                   ]}
                 >
-                  <Input type='number' />
+                  <Input placeholder='Phone number' />
                 </Form.Item>
               </Col>
-              <Col span={8}>
+
+              <Col span={12}>
                 <Form.Item
                   label='Email'
                   name='email'
@@ -160,9 +166,10 @@ function UserForm() {
                     }
                   ]}
                 >
-                  <Input type='email' />
+                  <Input placeholder='Email' />
                 </Form.Item>
               </Col>
+
               <Col span={8}>
                 <Form.Item
                   label='Date of Birth'
@@ -174,7 +181,15 @@ function UserForm() {
                     }
                   ]}
                 >
-                  <Input type='dob' />
+                  <Input placeholder='Date of birth' />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item name='sex' label='Sex' rules={[{ required: true, message: 'Please select sex' }]}>
+                  <Select placeholder='select your sex'>
+                    <Option value='male'>Male</Option>
+                    <Option value='female'>Female</Option>
+                  </Select>
                 </Form.Item>
               </Col>
               <Col span={24}>
@@ -188,110 +203,171 @@ function UserForm() {
                     }
                   ]}
                 >
-                  <textarea type='text' />
+                  <Input placeholder='Property Address' />
                 </Form.Item>
               </Col>
+            </Row>
 
-              <Col span={24}>
-                <hr />
-              </Col>
-              <hr />
-              {/* family information */}
-              <Form.List name='spouse'>
+            <Divider orientation='left' orientationMargin={20}>
+              <Typography.Title level={5}>Spouse Information</Typography.Title>
+            </Divider>
+            <Col span={24}>
+              <Form.List
+                name={['spouse']}
+                initialValue={[
+                  {
+                    spouse_name: '',
+                    spouse_dob: ''
+                  }
+                ]}
+              >
                 {(fields, { add, remove }) => (
                   <>
                     {fields.map(({ key, name, ...restField }) => (
-                      <Space
-                        key={key}
-                        style={{ display: 'flex', marginBottom: 8 }}
-                        align='baseline'
-                      >
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'spouseFirstName']}
-                          rules={[{ required: true, message: 'Missing first name' }]}
-                        >
-                          <Input placeholder='Spouse First Name' />
-                        </Form.Item>
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'spouseMiddleName']}
-                          rules={[{ required: true, message: 'Missing first name' }]}
-                        >
-                          <Input placeholder='Spouse Middle Name' />
-                        </Form.Item>
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'spouseLastName']}
-                          rules={[{ required: true, message: 'Missing last name' }]}
-                        >
-                          <Input placeholder='Spouse Last Name' />
-                        </Form.Item>
-                        <MinusCircleOutlined onClick={() => remove(name)} />
-                      </Space>
+                      <Row gutter={16} key={key} align='middle'>
+                        <Col md={12} xs={18} lg={12}>
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'spouse_name']}
+                            rules={[{ required: true, message: 'Spouse name is required.' }]}
+                            label='Spouse Name'
+                          >
+                            <Input />
+                          </Form.Item>
+                        </Col>
+                        <Col md={12}>
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'spouse_dob']}
+                            rules={[{ required: true, message: 'Spouse date of birth is required.' }]}
+                            label='Date of birth'
+                          >
+                            <Input />
+                          </Form.Item>
+                        </Col>
+                        <Col xs={3}>
+                          <Button
+                            onClick={() => remove(name)}
+                            style={{
+                              cursor: 'pointer',
+                              display: 'flex',
+                              marginTop: 20,
+                              flexDirection: 'column',
+                              width: '100%',
+                              height: '100%',
+                              border: '1px solid #ccc',
+                              justifyContent: 'center',
+                              alignItems: 'center'
+                            }}
+                          >
+                            X
+                          </Button>
+                        </Col>
+                      </Row>
                     ))}
+
                     <Form.Item>
-                      <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
+                      <Button
+                        type='dashed'
+                        onClick={() => add()}
+                        icon='+'
+                        block
+                        size='large'
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center'
+                        }}
+                      >
                         Add Spouse
                       </Button>
                     </Form.Item>
                   </>
                 )}
               </Form.List>
-              <hr />
-              <br />
-              <Form.List name='children'>
-                {(fields, { add, remove }) => (
-                  <>
-                    {fields.map(({ key, name, ...restField }) => (
-                      <Space
-                        key={key}
-                        style={{ display: 'flex', marginBottom: 8 }}
-                        align='baseline'
-                      >
+            </Col>
+            <Divider orientation='left' orientationMargin={20}>
+              <Typography.Title level={5}>Children Information</Typography.Title>
+            </Divider>
+            <Form.List
+              name={['children']}
+              initialValue={[
+                {
+                  child_fullname: '',
+                  child_dob: ''
+                }
+              ]}
+            >
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Row gutter={10} key={key} align='middle'>
+                      <Col md={14} xs={18}>
                         <Form.Item
                           {...restField}
-                          name={[name, 'childFirstName']}
-                          rules={[{ required: true, message: 'Missing first name' }]}
+                          name={[name, 'child_fullname']}
+                          rules={[{ required: true, message: 'Child name is required.' }]}
+                          label='Child name'
                         >
-                          <Input placeholder='Child First Name' />
+                          <Input />
                         </Form.Item>
+                      </Col>
+                      <Col md={14}>
                         <Form.Item
                           {...restField}
-                          name={[name, 'childMiddleName']}
-                          rules={[{ required: true, message: 'Missing first name' }]}
+                          name={[name, 'child_dob']}
+                          rules={[{ required: true, message: "Child's date of birth is required." }]}
+                          label='Date of birth'
                         >
-                          <Input placeholder='Child Middle Name' />
+                          <Input />
                         </Form.Item>
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'childLastName']}
-                          rules={[{ required: true, message: 'Missing last name' }]}
-                        >
-                          <Input placeholder='Child Last Name' />
-                        </Form.Item>
-                        <MinusCircleOutlined onClick={() => remove(name)} />
-                      </Space>
-                    ))}
-                    <Form.Item>
-                      <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
-                        Add Child
-                      </Button>
-                    </Form.Item>
-                  </>
-                )}
-              </Form.List>
-              <hr />
-            </Row>
+                      </Col>
 
-            <div className='flex justify-end gap-6'>
-              <button className='outlined-btn' type='button'>
-                CANCEL
-              </button>
-              <button className='contained-btn' type='submit'>
-                SUBMIT
-              </button>
-            </div>
+                      <Col xs={3}>
+                        <Button
+                          onClick={() => remove(name)}
+                          style={{
+                            cursor: 'pointer',
+                            display: 'flex',
+                            marginTop: 20,
+                            flexDirection: 'column',
+                            width: '100%',
+                            height: '100%',
+                            border: '1px solid #ccc',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                          }}
+                        >
+                          X
+                        </Button>
+                      </Col>
+                    </Row>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type='dashed'
+                      onClick={() => add()}
+                      icon='+'
+                      block
+                      size='large'
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      Add another child
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
+
+            <Form.Item>
+              <Button type='primary' htmlType='submit'>
+                Submit
+              </Button>
+            </Form.Item>
           </Form>
         </>
       )}
@@ -299,8 +375,7 @@ function UserForm() {
       {documentSubmitted && !documentApproved && (
         <div className='flex flex-col items-center gap-2'>
           <h3 className='text-gray-800'>
-            You have already submitted this document, please wait for the admin to approve your
-            request.
+            You have already submitted this document, please wait for the admin to approve your request.
           </h3>
         </div>
       )}

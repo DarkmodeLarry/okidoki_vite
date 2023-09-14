@@ -49,7 +49,7 @@ function Login() {
         href='/'
         className={cn(
           buttonVariants({ variant: 'default' }),
-          'absolute left-4 top-4 md:left-8 md:top-20'
+          'absolute left-4 top-4 md:left-8 md:top-20 p-3'
         )}
       >
         <>

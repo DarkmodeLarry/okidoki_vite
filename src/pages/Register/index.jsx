@@ -3,12 +3,14 @@ import React from 'react'
 import { Form, message } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { Button } from '@/components/ui/Button'
+import { Button, buttonVariants } from '@/components/ui/Button'
 import { CreateUser } from '@/apicalls/users'
 import { ShowLoader } from '@/redux/loaderSlice'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import Input from '@/components/ui/Input'
+import { cn } from '@/lib/utils'
+import { ChevronLeft } from 'lucide-react'
 
 function Register() {
   const navigate = useNavigate()
@@ -42,6 +44,18 @@ function Register() {
 
   return (
     <div className='flex items-center justify-center h-screen'>
+      <Link
+        to='/'
+        className={cn(
+          buttonVariants({ variant: 'default' }),
+          'absolute left-4 top-4 md:left-8 md:top-20 p-3'
+        )}
+      >
+        <>
+          <ChevronLeft className=' w-4 w-full h-4 mr-2' />
+          Back
+        </>
+      </Link>
       <Form
         layout='vertical'
         className='w-450 p-6 text-gray-200 bg-gray-800 rounded-lg'

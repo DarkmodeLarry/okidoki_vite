@@ -1,13 +1,4 @@
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  updateDoc,
-  where
-} from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore'
 
 import { db } from '@/firebase/firebaseConfig'
 
@@ -37,7 +28,7 @@ export const CheckIfDocumentIsSubmitted = async (id) => {
     if (documents.size > 0) {
       return {
         success: true,
-        message: 'Document already submitted, pending approval.',
+        message: 'Document has already been submitted, pending approval.',
         data: documents.docs.map((doc) => {
           return {
             ...doc.data(),
