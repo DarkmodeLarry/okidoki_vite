@@ -11,7 +11,7 @@ function ProtectedRoute({ children }) {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'))
     if (!user) {
-      navigate('/login')
+      navigate('/')
     }
   })
 
@@ -21,6 +21,7 @@ function ProtectedRoute({ children }) {
         <div className='flex'>
           <h2 className='flex cursor-pointer' onClick={() => navigate('/')}>
             <img src={Logo} alt='logo' className='w-9 h-6' />
+            OkiDoki
           </h2>
         </div>
 
@@ -32,7 +33,6 @@ function ProtectedRoute({ children }) {
                 onClick={() => {
                   if (user.role === 'admin') navigate('/admin')
                   else navigate('/profile')
-                  navigate('/profile')
                 }}
               >
                 <Cookie className='text-amber-700 w-5 h-5' />

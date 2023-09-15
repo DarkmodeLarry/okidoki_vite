@@ -31,6 +31,9 @@ function UserForm() {
         ...values,
         days,
         userId: JSON.parse(localStorage.getItem('user')).id,
+        lastName: values.lastName,
+        firstName: values.firstName,
+        documentName: 'UserForm',
         status: 'pending',
         role: 'user'
       }
@@ -83,7 +86,7 @@ function UserForm() {
 
   const { Option } = Select
   return (
-    <div className='w-full p-6 m-6 bg-gray-300 rounded-lg'>
+    <div className='p-6 m-6 bg-gray-300 rounded-lg'>
       {(!documentSubmitted || documentApproved) && (
         <>
           {' '}

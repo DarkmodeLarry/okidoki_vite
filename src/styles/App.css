@@ -31,3 +31,21 @@ html {
 hr {
   border: 1px solid #d3d2d2;
 }
+
+/* form-elements */
+input,
+textarea,
+select {
+  height: 45px !important;
+  border: 1px solid #909090;
+  padding-left: 15px;
+  width: 100%;
+  border-radius: 4px;
+}
+
+input:focus,
+textarea,
+select {
+  outline: none;
+  border: 1px solid #494949;
+}
