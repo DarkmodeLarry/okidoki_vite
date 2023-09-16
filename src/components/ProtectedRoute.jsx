@@ -17,8 +17,8 @@ function ProtectedRoute({ children }) {
 
   return (
     <div className='layout shadow-gray-800 p-1 m-3 border-4 border-gray-500 rounded-lg shadow-lg'>
-      <div className='header flex items-center justify-between p-2 bg-white'>
-        <div className='flex'>
+      <div className='header flex items-center justify-between p-2 bg-white border-b'>
+        <div className='flex items-center gap-1'>
           <h2 className='flex cursor-pointer' onClick={() => navigate('/')}>
             <img src={Logo} alt='logo' className='w-9 h-6' />
             OkiDoki Dashboard
@@ -32,7 +32,7 @@ function ProtectedRoute({ children }) {
                 className='shadow-gray-700 flex items-center gap-2 p-2 capitalize rounded-lg shadow-md cursor-pointer'
                 onClick={() => {
                   if (user.role === 'admin') navigate('/admin')
-                  else navigate('/profile')
+                  else navigate('/')
                 }}
               >
                 <CgPokemon className='w-6 h-6 text-purple-500' />
@@ -43,18 +43,17 @@ function ProtectedRoute({ children }) {
                 <small>Admin's can click here to access the Admin Dashboard</small>
               </span>
             </div>
-
-            <Button
-              className='p-2'
-              onClick={() => {
-                localStorage.removeItem('user')
-                navigate('/login')
-              }}
-            >
-              Signout
-            </Button>
           </div>
         )}
+        <Button
+          className='p-2'
+          onClick={() => {
+            localStorage.removeItem('user')
+            navigate('/login')
+          }}
+        >
+          Signout
+        </Button>
       </div>
       <div className='content my-1'>{children}</div>
     </div>
