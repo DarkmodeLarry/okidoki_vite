@@ -14,7 +14,9 @@ function Profile() {
             <div className='flex flex-col gap-6 p-6 my-1 bg-white'>
               <div className=' flex gap-2'>
                 <h4>
-                  <b>Name : {user.firstName}</b>
+                  <b>
+                    Name : {user.firstName} {user.lastName}
+                  </b>
                 </h4>
               </div>
               <div className='flex gap-2'>
@@ -24,13 +26,13 @@ function Profile() {
               </div>
               <div className='flex gap-2'>
                 <h4>
-                  <b>Created On : {moment(user?.createdAt).format('DD-MM-YYYY hh:mm A')}</b>
+                  <b>Created On : {moment(user?.createdAt).format('MM-DD-YYYY hh:mm A')}</b>
                 </h4>
               </div>
             </div>
           )}
         </Tabs.TabPane>
-        <Tabs.TabPane tab='Profile' key='2'>
+        <Tabs.TabPane tab='Profile Form' key='2'>
           {user.role === 'user' && <UserForm />}
         </Tabs.TabPane>
       </Tabs>

@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import UserForm from './pages/UserForm'
+import BookAppointment from './pages/BookAppointment'
 
 function App() {
   const { loading } = useSelector((state) => state.loader)
@@ -19,9 +20,6 @@ function App() {
       {loading && <Spinner />}
       <BrowserRouter>
         <Routes>
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-
           <Route
             path='/'
             element={
@@ -30,6 +28,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
 
           <Route
             path='/profile'
@@ -39,7 +39,14 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path='/bookappointment'
+            element={
+              <ProtectedRoute>
+                <BookAppointment />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path='/userform'
             element={

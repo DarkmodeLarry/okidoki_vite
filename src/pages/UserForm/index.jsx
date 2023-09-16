@@ -1,8 +1,8 @@
 import { AddDocument, CheckIfDocumentIsSubmitted, UpdateDocument } from '@/apicalls/documents'
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai'
 import { ShowLoader } from '@/redux/loaderSlice'
-import { Form, Select, Space, Button, Col, Input, Row } from 'antd'
-
+import { Form, Select, Space, Button, Col, Row } from 'antd'
+import Input from '@/components/ui/Form/components/Input'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -33,9 +33,10 @@ function UserForm() {
         userId: JSON.parse(localStorage.getItem('user')).id,
         lastName: values.lastName,
         firstName: values.firstName,
-        documentName: 'UserForm',
+        documentType: 'user_form',
         status: 'pending',
-        role: 'user'
+        role: 'user',
+        createdAt: new Date().toISOString()
       }
       let response = null
       if (documentApproved) {
@@ -48,7 +49,7 @@ function UserForm() {
 
       if (response.success) {
         message.success(response.message)
-        navigate('/profile')
+        navigate('/')
       } else {
         message.error(response.message)
       }
@@ -86,13 +87,13 @@ function UserForm() {
 
   const { Option } = Select
   return (
-    <div className='p-6 m-6 bg-gray-300 rounded-lg'>
+    <div className='p-2 bg-gray-400 rounded-lg'>
       {(!documentSubmitted || documentApproved) && (
         <>
           {' '}
           <h3 className='my-1 uppercase'>{documentApproved ? 'Update your information' : 'Complete the form below'}</h3>
           <hr />
-          <Form style={{ width: 500 }} onFinish={onFinish} form={form} autoComplete='off' layout='vertical'>
+          <Form onFinish={onFinish} form={form} autoComplete='off' layout='vertical'>
             {/* personal information */}
             <Row gutter={[16, 16]}>
               <Col span={24}>
@@ -100,7 +101,7 @@ function UserForm() {
                   <b>Personal Information</b>
                 </h4>
               </Col>
-              <Col span={12}>
+              <Col span={8}>
                 <Form.Item
                   label='First Name'
                   name='firstName'
@@ -114,7 +115,7 @@ function UserForm() {
                   <Input placeholder='First name' />
                 </Form.Item>
               </Col>
-              <Col span={12}>
+              <Col span={8}>
                 <Form.Item
                   label='Middle Name (optional)'
                   name='middleName'
@@ -184,7 +185,7 @@ function UserForm() {
                     }
                   ]}
                 >
-                  <Input placeholder='Date of birth' />
+                  <Input placeholder='Date of birth' type='date' />
                 </Form.Item>
               </Col>
               <Col span={8}>
@@ -228,7 +229,7 @@ function UserForm() {
                   <>
                     {fields.map(({ key, name, ...restField }) => (
                       <Row gutter={16} key={key} align='middle'>
-                        <Col md={12} xs={18} lg={12}>
+                        <Col md={10}>
                           <Form.Item
                             {...restField}
                             name={[name, 'spouse_name']}
@@ -238,7 +239,7 @@ function UserForm() {
                             <Input />
                           </Form.Item>
                         </Col>
-                        <Col md={12}>
+                        <Col xs={10}>
                           <Form.Item
                             {...restField}
                             name={[name, 'spouse_dob']}
@@ -248,7 +249,7 @@ function UserForm() {
                             <Input />
                           </Form.Item>
                         </Col>
-                        <Col xs={3}>
+                        <Col xs={2}>
                           <Button
                             onClick={() => remove(name)}
                             style={{
@@ -377,9 +378,7 @@ function UserForm() {
 
       {documentSubmitted && !documentApproved && (
         <div className='flex flex-col items-center gap-2'>
-          <h3 className='text-gray-800'>
-            You have already submitted this document, please wait for the admin to approve your request.
-          </h3>
+          <h3 className='text-green-700'>Thanks for submitting the form, please wait while we approve your request.</h3>
         </div>
       )}
     </div>

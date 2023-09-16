@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/Button'
-import { Cookie } from 'lucide-react'
+import { CgPokemon } from 'react-icons/cg'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Logo from '@/assets/logo_od.png'
@@ -21,23 +21,27 @@ function ProtectedRoute({ children }) {
         <div className='flex'>
           <h2 className='flex cursor-pointer' onClick={() => navigate('/')}>
             <img src={Logo} alt='logo' className='w-9 h-6' />
-            OkiDoki
+            OkiDoki Dashboard
           </h2>
         </div>
 
         {user && (
           <div className='flex items-center gap-3'>
-            <div className='bg-slate-400 flex items-center gap-1 p-2 rounded-lg'>
+            <div className='text-slate-700 flex flex-col items-center p-2 font-bold bg-gray-300 rounded-lg'>
               <h4
-                className='flex items-center gap-3 underline uppercase cursor-pointer'
+                className='shadow-gray-700 flex items-center gap-2 p-2 capitalize rounded-lg shadow-md cursor-pointer'
                 onClick={() => {
                   if (user.role === 'admin') navigate('/admin')
                   else navigate('/profile')
                 }}
               >
-                <Cookie className='text-amber-700 w-5 h-5' />
-                <span>{user.email}</span>
+                <CgPokemon className='w-6 h-6 text-purple-500' />
+                <span>Hey, {user.firstName}!</span>
               </h4>
+
+              <span className='text-red-600'>
+                <small>Admin's can click here to access the Admin Dashboard</small>
+              </span>
             </div>
 
             <Button

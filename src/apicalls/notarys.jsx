@@ -1,14 +1,5 @@
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  updateDoc,
-  where
-} from 'firebase/firestore'
-import db from '../firebaseConfig'
+import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore'
+import { db } from '@/firebase/firebaseConfig'
 
 export const AddNotary = async (payload) => {
   try {

@@ -40,40 +40,28 @@ function Login() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'))
 
-    if (user) navigate('/profile')
+    if (user) navigate('/')
   })
 
   return (
     <div className='flex items-center justify-center h-screen'>
       <Link
         href='/'
-        className={cn(
-          buttonVariants({ variant: 'default' }),
-          'absolute left-4 top-4 md:left-8 md:top-20 p-3'
-        )}
+        className={cn(buttonVariants({ variant: 'default' }), 'absolute left-4 top-4 md:left-8 md:top-20 p-3')}
       >
         <>
           <ChevronLeft className=' w-4 w-full h-4 mr-2' />
           Back
         </>
       </Link>
-      <Form
-        layout='vertical'
-        className='w-450 p-6 text-gray-200 bg-gray-800 rounded-lg'
-        onFinish={onFinsh}
-      >
+      <Form layout='vertical' className='w-450 p-6 text-gray-200 bg-gray-800 rounded-lg' onFinish={onFinsh}>
         <h2 className='my-1 uppercase'>
           <strong>OkiDoki Login</strong>
         </h2>
         <hr />
 
         <Form.Item name='email'>
-          <Input
-            autoComplete={Form.getItem}
-            type='email'
-            placeholder='Email'
-            className='bg-gray-200'
-          />
+          <Input autoComplete={Form.getItem} type='email' placeholder='Email' className='bg-gray-200' />
         </Form.Item>
         <Form.Item name='password'>
           <Input type='password' placeholder='Password' className='bg-gray-200' />
