@@ -11,7 +11,7 @@ function ProtectedRoute({ children }) {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'))
     if (!user) {
-      navigate('/')
+      navigate('/login')
     }
   })
 
@@ -32,7 +32,7 @@ function ProtectedRoute({ children }) {
                 className='shadow-gray-700 flex items-center gap-2 p-2 capitalize rounded-lg shadow-md cursor-pointer'
                 onClick={() => {
                   if (user.role === 'admin') navigate('/admin')
-                  else navigate('/')
+                  else navigate('/login')
                 }}
               >
                 <CgPokemon className='w-6 h-6 text-purple-500' />
