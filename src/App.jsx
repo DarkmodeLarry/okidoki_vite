@@ -12,6 +12,8 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import UserForm from './pages/UserForm'
 import BookAppointment from './pages/BookAppointment'
+import FormAndView from './pages/FormAndView'
+import { Designer } from '@pdfme/ui'
 
 function App() {
   const { loading } = useSelector((state) => state.loader)
@@ -28,6 +30,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
 
@@ -39,6 +42,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path='/bookappointment'
             element={
@@ -47,6 +51,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path='/userform'
             element={
@@ -55,6 +60,10 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route path='/' element={<Designer />} />
+          <Route path='/formandview' element={<FormAndView />} />
+
           <Route
             path='/admin'
             element={

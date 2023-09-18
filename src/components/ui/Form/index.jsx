@@ -1,7 +1,7 @@
 import { Children, cloneElement } from 'react'
 import { Controller } from 'react-hook-form'
 import { Button } from '@/components/ui/Button'
-import { cn } from '@/lib/utils'
+import { cn } from '@/libs/utils'
 import Input from './components/Input'
 import Label from './components/Label'
 import Select from './components/SelectDropdown'
@@ -251,9 +251,7 @@ const Form = ({ children, rhfProps, formConfig, handleSubmit: handleSubmitFunc, 
             <Controller
               name={name}
               control={control}
-              render={({ field: { ...props } }) => (
-                <Upload setValue={setValue} {...props} {...field} {...childProps} />
-              )}
+              render={({ field: { ...props } }) => <Upload setValue={setValue} {...props} {...field} {...childProps} />}
             />
             {error}
           </>
@@ -266,10 +264,7 @@ const Form = ({ children, rhfProps, formConfig, handleSubmit: handleSubmitFunc, 
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(handleSubmitFunc)}
-      className={cn('flex flex-col gap-8 w-full', wrapperClass)}
-    >
+    <form onSubmit={handleSubmit(handleSubmitFunc)} className={cn('flex flex-col gap-8 w-full', wrapperClass)}>
       {Children.toArray(
         formConfig.map((field) => (
           <ErrorBoundary>

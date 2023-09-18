@@ -9,7 +9,7 @@ import { ShowLoader } from '@/redux/loaderSlice'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import Input from '@/components/ui/Input'
-import { cn } from '@/lib/utils'
+import { cn } from '@/libs/utils'
 import { ChevronLeft } from 'lucide-react'
 
 function Register() {
@@ -46,21 +46,14 @@ function Register() {
     <div className='flex items-center justify-center h-screen'>
       <Link
         to='/'
-        className={cn(
-          buttonVariants({ variant: 'default' }),
-          'absolute left-4 top-4 md:left-8 md:top-20 p-3'
-        )}
+        className={cn(buttonVariants({ variant: 'default' }), 'absolute left-4 top-4 md:left-8 md:top-20 p-3')}
       >
         <>
           <ChevronLeft className=' w-4 w-full h-4 mr-2' />
           Back
         </>
       </Link>
-      <Form
-        layout='vertical'
-        className='w-450 p-6 text-gray-200 bg-gray-800 rounded-lg'
-        onFinish={onFinsh}
-      >
+      <Form layout='vertical' className='w-450 p-6 text-gray-200 bg-gray-800 rounded-lg' onFinish={onFinsh}>
         <h2 className='my-1 uppercase'>
           <strong>OkiDoki Register</strong>
         </h2>
@@ -76,11 +69,7 @@ function Register() {
         </Form.Item>
 
         <Form.Item name='password'>
-          <Input
-            type='password'
-            placeholder='Password'
-            className='bg-gray-600 border border-gray-300'
-          />
+          <Input type='password' placeholder='Password' className='bg-gray-600 border border-gray-300' />
         </Form.Item>
 
         <Button className='contained-btn w-full my-1' type='submit'>

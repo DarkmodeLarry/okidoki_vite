@@ -1,61 +1,39 @@
-import {
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/Table";
-import { cn } from "@/lib/utils";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table'
+import { cn } from '@/libs/utils'
 
 export function DataTable({
   columns,
   data,
   className = {
-    table: "",
-    header: "",
-    headerRow: "",
-    headerCell: "",
-    body: "",
-    row: "",
-    cell: "",
-  },
+    table: '',
+    header: '',
+    headerRow: '',
+    headerCell: '',
+    body: '',
+    row: '',
+    cell: ''
+  }
 }) {
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+    getCoreRowModel: getCoreRowModel()
+  })
 
   return (
-    <div className={cn("rounded border w-full", className.tableWrapper)}>
-      <Table className={cn("w-full", className.table)}>
-        <TableHeader className={cn("bg-gray-100", className.header)}>
+    <div className={cn('rounded border w-full', className.tableWrapper)}>
+      <Table className={cn('w-full', className.table)}>
+        <TableHeader className={cn('bg-gray-100', className.header)}>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow
-              key={headerGroup.id}
-              className={cn("text-left", className.headerRow)}
-            >
+            <TableRow key={headerGroup.id} className={cn('text-left', className.headerRow)}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead
-                    key={header.id}
-                    className={cn(className.headerCell)}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                  <TableHead key={header.id} className={cn(className.headerCell)}>
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
-                );
+                )
               })}
             </TableRow>
           ))}
@@ -63,16 +41,9 @@ export function DataTable({
         <TableBody className={cn(className.body)}>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-                className={cn(className.row)}
-              >
+              <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className={cn(className.row)}>
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className={cn("text-left", className.cell)}
-                  >
+                  <TableCell key={cell.id} className={cn('text-left', className.cell)}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -80,7 +51,7 @@ export function DataTable({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell colSpan={columns.length} className='h-24 text-center'>
                 No results.
               </TableCell>
             </TableRow>
@@ -88,5 +59,5 @@ export function DataTable({
         </TableBody>
       </Table>
     </div>
-  );
+  )
 }
