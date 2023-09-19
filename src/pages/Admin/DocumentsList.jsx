@@ -66,7 +66,6 @@ function DocumentsList() {
       title: 'Last Name',
       dataIndex: 'lastName'
     },
-
     {
       title: 'Document Type',
       dataIndex: 'documentType'
@@ -152,7 +151,7 @@ function DocumentsList() {
 
   return (
     <div>
-      <Table columns={columns} dataSource={documents} />
+      <Table className='capitalize' columns={columns} dataSource={documents} />
     </div>
   )
 }

@@ -1,15 +1,11 @@
 import { AddDocument, CheckIfDocumentIsSubmitted, UpdateDocument } from '@/apicalls/documents'
-import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai'
 import { ShowLoader } from '@/redux/loaderSlice'
-import { Form, Select, Space, Button, Col, Row } from 'antd'
+import { Form, Select, Button, Col, Row } from 'antd'
 import Input from '@/components/ui/Form/components/Input'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Checkbox } from 'antd'
-import { Divider } from 'antd'
-import { Typography } from 'antd'
-import { message } from 'antd'
+import { message, Typography, Divider } from 'antd'
 
 function UserForm() {
   const [form] = Form.useForm()
@@ -49,7 +45,7 @@ function UserForm() {
 
       if (response.success) {
         message.success(response.message)
-        navigate('/')
+        navigate('/profile')
       } else {
         message.error(response.message)
       }
@@ -367,11 +363,9 @@ function UserForm() {
               )}
             </Form.List>
 
-            <Form.Item>
-              <Button type='primary' htmlType='submit'>
-                Submit
-              </Button>
-            </Form.Item>
+            <button type='primary' htmltype='submit'>
+              Submit
+            </button>
           </Form>
         </>
       )}

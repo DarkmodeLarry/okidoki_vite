@@ -27,7 +27,6 @@ function Login() {
             password: ''
           })
         )
-        navigate('/')
       } else {
         throw new Error(response.message)
       }
@@ -40,7 +39,9 @@ function Login() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'))
 
-    if (user) navigate('/')
+    if (user) {
+      navigate('/profile')
+    }
   })
 
   return (

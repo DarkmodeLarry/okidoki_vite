@@ -13,11 +13,7 @@ export const BookNotaryAppointment = async (payload) => {
 export const GetNotaryAppointmentsOnDate = async (notaryId, date) => {
   try {
     const querySnapshot = await getDocs(
-      query(
-        collection(db, 'appointments'),
-        where('notaryId', '==', notaryId),
-        where('date', '==', date)
-      )
+      query(collection(db, 'appointments'), where('notaryId', '==', notaryId), where('date', '==', date))
     )
     const data = []
     querySnapshot.forEach((doc) => {
@@ -31,9 +27,7 @@ export const GetNotaryAppointmentsOnDate = async (notaryId, date) => {
 
 export const GetNotaryAppointments = async (notaryId) => {
   try {
-    const querySnapshot = await getDocs(
-      query(collection(db, 'appointments'), where('notaryId', '==', notaryId))
-    )
+    const querySnapshot = await getDocs(query(collection(db, 'appointments'), where('notaryId', '==', notaryId)))
     const data = []
     querySnapshot.forEach((doc) => {
       data.push({
@@ -49,9 +43,7 @@ export const GetNotaryAppointments = async (notaryId) => {
 
 export const GetUserAppointments = async (userId) => {
   try {
-    const querySnapshot = await getDocs(
-      query(collection(db, 'appointments'), where('userId', '==', userId))
-    )
+    const querySnapshot = await getDocs(query(collection(db, 'appointments'), where('userId', '==', userId)))
     const data = []
     querySnapshot.forEach((doc) => {
       data.push({

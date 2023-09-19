@@ -6,9 +6,9 @@ export const AddDocument = async (payload) => {
   try {
     await setDoc(doc(db, 'documents', payload.userId), payload)
 
-    // update user role
+    // update document status
     await updateDoc(doc(db, 'users', payload.userId), {
-      role: 'notary'
+      status: 'pending'
     })
     return {
       success: true,

@@ -32,10 +32,6 @@ function UsersList() {
 
   const columns = [
     {
-      title: 'ID',
-      dataIndex: 'id'
-    },
-    {
       title: 'First Name',
       dataIndex: 'firstName'
     },
@@ -44,18 +40,25 @@ function UsersList() {
       dataIndex: 'lastName'
     },
     {
+      title: 'Role',
+      dataIndex: 'role',
+      render: (role) => role.toUpperCase(0)
+    },
+    {
       title: 'Email',
       dataIndex: 'email'
     },
     {
-      title: 'Role',
-      dataIndex: 'role',
-      render: (role) => role.toUpperCase(0)
+      title: 'ID',
+      dataIndex: 'id'
     }
   ]
+
   return (
-    <div classname='bg-slate-300 m-6'>
-      <Table columns={columns} dataSource={users} />
+    <div className='bg-slate-300 m-6 rounded-lg'>
+      <h1 className='text-slate-800 p-4 text-2xl text-center'>User's List</h1>
+
+      <Table className='capitalize' columns={columns} dataSource={users} />
     </div>
   )
 }
