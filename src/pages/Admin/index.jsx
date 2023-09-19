@@ -6,7 +6,6 @@ import { GetUserById } from '@/apicalls/users'
 import { ShowLoader } from '@/redux/loaderSlice'
 import UsersList from './UsersList'
 import DocumentsList from './DocumentsList'
-import Review from './Review'
 
 function Admin() {
   const [isAdmin, setIsAdmin] = useState(false)
@@ -42,9 +41,6 @@ function Admin() {
           </Tabs.TabPane>
           <Tabs.TabPane tab='Documents' key='2'>
             <DocumentsList />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab='Review' key='3'>
-            <Review />
           </Tabs.TabPane>
         </Tabs>
       </div>

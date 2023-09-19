@@ -43,7 +43,6 @@ function Home() {
       } else {
         message.error(response.message)
       }
-
       dispatch(ShowLoader(false))
     } catch (error) {
       message.error(error.message)
