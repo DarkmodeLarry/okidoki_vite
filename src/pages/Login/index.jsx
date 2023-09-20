@@ -55,27 +55,29 @@ function Login() {
           Back
         </>
       </Link>
-      <Form layout='vertical' className='w-450 p-6 text-gray-200 bg-gray-800 rounded-lg' onFinish={onFinsh}>
-        <h2 className='my-1 uppercase'>
-          <strong>OkiDoki Login</strong>
-        </h2>
-        <hr />
+      <div className=' p-6'>
+        <Form layout='vertical' className='w-450 p-6 text-gray-200 bg-gray-800 rounded-lg' onFinish={onFinsh}>
+          <h2 className='my-1 uppercase'>
+            <strong>OkiDoki Login</strong>
+          </h2>
+          <hr />
 
-        <Form.Item name='email'>
-          <Input autoComplete={Form.getItem} type='email' placeholder='Email' className='bg-gray-200' />
-        </Form.Item>
-        <Form.Item name='password'>
-          <Input type='password' placeholder='Password' className='bg-gray-200' />
-        </Form.Item>
+          <Form.Item name='email'>
+            <Input autoComplete={Form.getItem} type='email' placeholder='Email' className='bg-gray-200' />
+          </Form.Item>
+          <Form.Item name='password'>
+            <Input type='password' placeholder='Password' className='bg-gray-200' />
+          </Form.Item>
 
-        <Button className='contained-btn w-full my-1' type='submit'>
-          Login
-        </Button>
+          <Button className='contained-btn w-full my-1' type='submit'>
+            Login
+          </Button>
 
-        <Link className='underline' to='/register'>
-          Dont have an account? <strong>Sign Up</strong>
-        </Link>
-      </Form>
+          <Link className='underline' to='/register'>
+            Dont have an account? <strong>Sign Up</strong>
+          </Link>
+        </Form>
+      </div>
     </div>
   )
 }
